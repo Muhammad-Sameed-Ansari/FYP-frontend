@@ -1,4 +1,4 @@
-//import './shim.js';
+import './shim.js';
 import 'react-native-gesture-handler';
 /**
  * Sample React Native App
@@ -13,10 +13,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 import { Cart, SignUp, SignIn, Transfer, Items } from './screens';
-
 import Tabs from "./navigation/tabs";
 
-//import Web3 from 'web3';
+import Web3 from 'web3';
+
 //const contract = require('truffle-contract');
 //import eCampusCoinJson from './artifacts/eCampusCoin.json';
 
@@ -25,21 +25,15 @@ import { Provider } from 'react-redux';
 import store from './Redux/store';
 
 const loadBlockchainData = async () => {
-    const _provider = Web3.givenProvider || "http://localhost:9545"
-        const _web3 = new Web3(_provider)
+    // const web3 = new Web3(Web3.givenProvider || "http://127.0.0.1:9545")
+    // const accounts = await web3.eth.getAccounts()
+    // //this.setState({ account: accounts[0] })
+    // console.log(accounts[0]);
 
-        const accounts = await _web3.eth.getAccounts()
-        setAccountAddress( accounts[0] )
-        // }
-        //this.web3.eth.defaultAccount = accounts[0]
-
-        const eCampusCoinContract = contract(eCampusCoinJson)
-        eCampusCoinContract.setProvider( _provider )
-
-        eCampusCoinContract.deployed().then((instance) => {
-            setContractInstance( instance )
-        })
-        console.log(accounts[0]);
+    const web3 = new Web3('HTTP://127.0.0.1:9545');
+    const newWallet = web3.eth.accounts.wallet.create(1);
+    const newAccount = newWallet[0];
+    console.log(newAccount);
 }
 
 const theme = {
@@ -53,8 +47,10 @@ const theme = {
 const Stack = createStackNavigator()
 
 const App = () => {
+    //const [account, setAccount] = React.useState('');
     React.useEffect(() => {
         console.log("useEffect");
+        loadBlockchainData();
         //loadBlockchainData();
     }, [])
 

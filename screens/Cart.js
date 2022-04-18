@@ -18,7 +18,7 @@ import * as actions from '../Redux/Actions/cartActions';
 
 const Cart = ({ route, navigation, cartItems, clearCart, removeFromCart }) => {
 
-    const user_id = route.params;
+    const {user_id} = route.params;
     //const [cartList, setCartList] = React.useState(dummyData.myCart)
     const [cartList, setCartList] = React.useState(cartItems)
     const [totalPrice, setTotalPrice] = React.useState(0);
@@ -40,11 +40,14 @@ const Cart = ({ route, navigation, cartItems, clearCart, removeFromCart }) => {
     function placeOrder() {
         if (cartItems.length > 0) {
             cartItems.map(x => {
+                console.log(x.quantity);
+                console.log(x.product.id);
                 let newItem = {
                     quantity: x.quantity,
                     product: x.product.id
                 }
-                setAddToBagItems([...addToBagItems, newItem]);
+                setAddToBagItems([...addToBagItems, {quantity: x.quantity, product: x.product.id}]);
+                console.log(addToBagItems);                
             })
 
             let order = {
