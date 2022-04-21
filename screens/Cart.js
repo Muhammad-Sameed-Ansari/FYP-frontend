@@ -39,19 +39,23 @@ const Cart = ({ route, navigation, cartItems, clearCart, removeFromCart }) => {
 
     function placeOrder() {
         if (cartItems.length > 0) {
-            cartItems.map(x => {
+            let newCartItems = cartItems.map(x => {
                 console.log(x.quantity);
                 console.log(x.product.id);
                 let newItem = {
                     quantity: x.quantity,
                     product: x.product.id
                 }
-                setAddToBagItems([...addToBagItems, {quantity: x.quantity, product: x.product.id}]);
-                console.log(addToBagItems);                
+                return newItem;
+                //setAddToBagItems([...addToBagItems, {quantity: x.quantity, product: x.product.id}]);
+                //console.log(addToBagItems);                
             })
+            console.log(newCartItems);
+            setAddToBagItems(newCartItems);
+            console.log(addToBagItems);    
 
             let order = {
-                orderItems: addToBagItems,
+                orderItems: newCartItems,
                 user: user_id
             }
             

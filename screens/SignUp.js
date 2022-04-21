@@ -24,6 +24,7 @@ const SignUp = ({navigation}) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [fullName, setFullName] = React.useState('')
     const [email, setEmail] = React.useState('')
+    const [walletAddress, setWalletAddress] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [confirmPassword, setConfirmPassword] = React.useState('')
 
@@ -55,7 +56,7 @@ const SignUp = ({navigation}) => {
     */
 
     const validateSignUp = () => {
-        if (fullName !== "" && email !== "" && password !== "" && confirmPassword !== "") {
+        if (fullName !== "" && email !== "" && password !== "" && confirmPassword !== "" && walletAddress !== "") {
             if (password === confirmPassword) {
                 let user = {
                     name: fullName,
@@ -110,7 +111,7 @@ const SignUp = ({navigation}) => {
         return (
             <View
                 style={{
-                    marginTop: SIZES.padding * 5,
+                    marginTop: SIZES.padding * 3,
                     height: 100,
                     alignItems: "center",
                     justifyContent: "center"
@@ -132,7 +133,7 @@ const SignUp = ({navigation}) => {
         return (
             <View
                 style={{
-                    marginTop: SIZES.padding * 3,
+                    marginTop: SIZES.padding * 1,
                     marginHorizontal: SIZES.padding * 3
                 }}
             >
@@ -168,6 +169,25 @@ const SignUp = ({navigation}) => {
                             ...FONTS.body3
                         }}
                         placeholder="Enter Email Address"
+                        placeholderTextColor={COLORS.white}
+                        selectionColor={COLORS.white}
+                        onChangeText={(text) => setEmail(text)}
+                    />
+                </View>
+
+                {/* Wallet Address */}
+                <View style={{ marginTop: SIZES.padding * 2 }}>
+                    <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>Wallet Address</Text>
+                    <TextInput
+                        style={{
+                            marginVertical: SIZES.padding,
+                            borderBottomColor: COLORS.white,
+                            borderBottomWidth: 1,
+                            height: 40,
+                            color: COLORS.white,
+                            ...FONTS.body3
+                        }}
+                        placeholder="Enter Wallet Address"
                         placeholderTextColor={COLORS.white}
                         selectionColor={COLORS.white}
                         onChangeText={(text) => setEmail(text)}
