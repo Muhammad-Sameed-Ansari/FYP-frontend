@@ -6,6 +6,7 @@ import {
     StyleSheet
 } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
+import Toast from "react-native-toast-message";
 
 import baseURL from "../assets/common/baseURL";
 import axios from "axios";
@@ -63,6 +64,12 @@ const Cart = ({ route, navigation, cartItems, clearCart, removeFromCart }) => {
             axios.post(`${baseURL}/orders`, order)
             .then((res) => {
                 if (res.status == 200) {
+                    Toast.show({
+                        topOffset: 60,
+                        type: "success",
+                        text1: "Order Placed Successfull",
+                        text2: "You can get the Items from the counter"
+                    });
                     console.log("Success! Order Added to Database");
                     orderPlaced = true;
                 }

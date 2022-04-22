@@ -47,6 +47,7 @@
     "react-native-svg": "^12.1.1",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-tcp": "^3.3.2",
+    "react-native-toast-message": "^2.1.5",
     "react-native-udp": "^2.7.0",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.8",
@@ -60,7 +61,8 @@
     "url": "^0.10.3",
     "util": "^0.10.4",
     "vm-browserify": "^0.0.4",
-    "web3": "^1.7.3"
+    "web3": "^1.7.3",
+    "web3-eth-contract": "^1.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",

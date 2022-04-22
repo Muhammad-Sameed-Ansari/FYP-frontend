@@ -10,6 +10,7 @@ import {
     Platform
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import Toast from "react-native-toast-message";
 
 import baseURL from "../assets/common/baseURL";
 import axios from "axios";
@@ -31,16 +32,42 @@ const SignIn = ({navigation}) => {
             axios.post(`${baseURL}/users/login`, user)
             .then((res) => {
                 if (res.status == 200) {
+                    Toast.show({
+                        topOffset: 60,
+                        type: "success",
+                        text1: "Login Successfull",
+                        text2: "Now you can login into your account"
+                    });
                     setTimeout(() => {
                         console.log(res.data);
                         navigation.navigate('Tabs', {screen: 'Home', 
                             params: {user_details: res.data}});
                     })
+                } else if (res.status == 400) {
+                    Toast.show({
+                        topOffset: 60,
+                        type: "success",
+                        text1: "Login Failed",
+                        text2: "No Account with Email exists"
+                    });
+                } else if (res.status == 404) {
+                    Toast.show({
+                        topOffset: 60,
+                        type: "success",
+                        text1: "Login Failed",
+                        text2: "Password is incorrect"
+                    });
                 }
                 console.log(res.data);
             })
             
         } else {
+            Toast.show({
+                topOffset: 60,
+                type: "error",
+                text1: "Registeration Failed",
+                text2: "Please complete all fields"
+            });
             console.log("Error in SignIn - Complete All Fields");
         }
     }

@@ -13,6 +13,7 @@ import {
     Platform
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import Toast from "react-native-toast-message";
 
 import baseURL from "../assets/common/baseURL";
 import axios from "axios";
@@ -56,7 +57,7 @@ const SignUp = ({navigation}) => {
     */
 
     const validateSignUp = () => {
-        if (fullName !== "" && email !== "" && password !== "" && confirmPassword !== "" && walletAddress !== "") {
+        if (fullName !== "" && email !== "" && password !== "" && confirmPassword !== "") {
             if (password === confirmPassword) {
                 let user = {
                     name: fullName,
@@ -66,16 +67,34 @@ const SignUp = ({navigation}) => {
                 axios.post(`${baseURL}/users/register`, user)
                 .then((res) => {
                     if (res.status == 200) {
+                        Toast.show({
+                            topOffset: 60,
+                            type: "success",
+                            text1: "Registered Successfully",
+                            text2: "Now you can login into your account"
+                        });
                         setTimeout(() => {
                             navigation.navigate("SignIn");
-                        })
+                        });
                     }
                     console.log(res.data);
                 })
             } else {
+                Toast.show({
+                    topOffset: 60,
+                    type: "error",
+                    text1: "Registeration Failed",
+                    text2: "Password Not Matched"
+                });
                 console.log("Error in SignUp - Password Not Matched");
             }  
         } else {
+            Toast.show({
+                topOffset: 60,
+                type: "error",
+                text1: "Registeration Failed",
+                text2: "Please complete all fields"
+            });
             console.log("Error in Signup - Complete All Fields");
         }
     }

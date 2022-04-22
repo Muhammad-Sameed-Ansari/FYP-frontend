@@ -9,10 +9,7 @@ import {
     FlatList,
     Modal
 } from 'react-native'
-import {
-    Svg,
-    Polygon
-} from 'react-native-svg';
+import Toast from 'react-native-toast-message';
 import { BlurView } from "@react-native-community/blur";
 
 import baseURL from "../assets/common/baseURL";
@@ -264,6 +261,12 @@ const Items = ({ route, navigation, addItemToCart }) => {
                                     //addToCart(selectedItem.id, 2)
                                     console.log(selectedItem);
                                     addItemToCart(selectedItem, userEnteredQuantity);
+                                    Toast.show({
+                                        topOffset: 60,
+                                        type: "success",
+                                        text1: `${selectedItem.name} added to Cart`,
+                                        text2: "Go to your cart to complete order"
+                                    })
                                 }}
                             >
                                 <Text style={{ color: COLORS.white, ...FONTS.largeTitleBold }}>Add to Bag</Text>
