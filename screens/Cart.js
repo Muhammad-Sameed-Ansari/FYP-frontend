@@ -204,7 +204,7 @@ const Cart = ({ route, navigation, cartItems, clearCart, removeFromCart }) => {
                                 }}
                             >
                                 <Image
-                                    source={data.item.image}
+                                    source={require("../assets/dummyData/hamburger.png")}
                                     resizeMode="contain"
                                     style={{
                                         width: "100%",

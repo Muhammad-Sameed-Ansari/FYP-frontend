@@ -136,6 +136,7 @@ const Items = ({ route, navigation, addItemToCart }) => {
     }
 
     function renderRecentlyViewed(item, index) {
+        console.log(item.image);
         return (
             <TouchableOpacity
                 style={{ flex: 1, flexDirection: 'row' }}
@@ -151,7 +152,8 @@ const Items = ({ route, navigation, addItemToCart }) => {
             >
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                     <Image
-                        source={item.img}
+                        //source={item.image}
+                        source={require("../assets/dummyData/hamburger.png")}
                         resizeMode="contain"
                         style={{
                             width: 130,
@@ -221,7 +223,7 @@ const Items = ({ route, navigation, addItemToCart }) => {
                         <View style={{ justifyContent: 'center', width: "85%", backgroundColor: selectedItem.bgColor }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: -SIZES.padding * 2 }}>
                                 <Image
-                                    source={selectedItem.img}
+                                    source={selectedItem.image}
                                     resizeMode="contain"
                                     style={{
                                         width: "90%",

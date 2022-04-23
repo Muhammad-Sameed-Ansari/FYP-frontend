@@ -10,6 +10,10 @@ import {
 } from "react-native";
 import { COLORS, SIZES, FONTS, icons, images, dummyData } from "../constants"
 
+const Contract = require('web3-eth-contract');
+const contractInterface = require('./../artifacts/eCampusCoin.json');
+import Web3 from 'web3';
+
 const Home = ({ route, navigation}) => {
 
     const { user_details } = route.params;
@@ -103,10 +107,34 @@ const Home = ({ route, navigation}) => {
         },
     ]
 
-    const [features, setFeatures] = React.useState(featuresData)
-    const [specialPromos, setSpecialPromos] = React.useState(specialPromoData)
+    const [features, setFeatures] = React.useState(featuresData);
+    const [specialPromos, setSpecialPromos] = React.useState(specialPromoData);
+    const [contract, setContract] = React.useState();
+    const [balance, setBalance] = React.useState(10);
+
+
+    React.useEffect(() =>  {
+        console.log("useEffect - Home");
+        Contract.setProvider(Web3.givenProvider || 'HTTP://127.0.0.1:9545');
+        const cont = new Contract(contractInterface.abi, "0xB6484f873373B881B363A8a8c723f40B13dE7aa2");
+        //console.log(cont);
+        // cont.deploy().then((instance) => {
+        //     setContract( instance )
+        // })
+        // .then(() => {
+        cont.methods.balanceOf("0x5C51A29FC3f41C176dDB43C3Ea3934Ddd1fdbf04").call((error, result) => {
+            setBalance(result);
+            console.log(result, error);
+        })
+        //cont.methods.balanceOf("0x13c35A8F04E54c41521c22925E7612Ca58d88C4E");
+        // })
+        
+        //console.log(cont)
+        
+    }, [])
 
     function renderHeader() {
+        console.log(contract)
         console.log(user_details.name);
         return (
             <View style={{ flexDirection: 'row', marginVertical: SIZES.padding * 2 }}>
@@ -175,7 +203,7 @@ const Home = ({ route, navigation}) => {
                         color: COLORS.white,
                         ...FONTS.h1
                     }}
-                >{dummyData.portfolio.balance} ⓔ</Text>
+                >{balance/*dummyData.portfolio.balance*/} ⓔ</Text>
             </View>
         )
     }

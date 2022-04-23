@@ -40,8 +40,9 @@ const loadBlockchainData = async () => {
     
     const web3 = new Web3(Web3.givenProvider || 'HTTP://127.0.0.1:9545');
     const accounts = await web3.eth.getAccounts();
+    console.log(accounts);
     console.log(accounts[0]);
-    console.log(web3.eth.getBalance(accounts[0]));
+    console.log(await web3.eth.getBalance(accounts[0]));
 
     // console.log("Hello");
     // console.log(web3.eth.accounts);
@@ -49,9 +50,9 @@ const loadBlockchainData = async () => {
 
     // set provider for all later instancesto use
     //Contract.setProvider(Web3.givenProvider || 'HTTP://127.0.0.1:9545');
-
-    //contract = new Contract(contractInterface, newAccount.address);
-
+    
+    const contract = new Contract(contractInterface.abi);
+    console.log(contract);
     console.log("Hello World");
     //console.log(await web3.eth.getBalance(newAccount.address));
 

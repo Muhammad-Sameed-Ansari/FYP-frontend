@@ -9,7 +9,41 @@ import {
 import { Header, IconButton } from "../components";
 import { FONTS, SIZES, COLORS, icons, dummyData } from "../constants";
 
+const Contract = require('web3-eth-contract');
+const contractInterface = require('./../artifacts/eCampusCoin.json');
+import Web3 from 'web3';
+
 const Transfer = ({navigation}) => {
+
+    const [receiverAddress, setReceiverAddress] = React.useState("");
+    const [enteredAmount, setEnteredAmount] = React.useState("");
+    const [currentUserAccount, setCurrentUserAccount] = React.useState("");
+    const [balance, setBalance] = React.useState(0);
+    const [contract, setContract] = React.useState();
+
+    const loadAccounts = async () => {
+        const web3 = new Web3(Web3.givenProvider || 'HTTP://127.0.0.1:9545');
+
+        Contract.setProvider(Web3.givenProvider || 'HTTP://127.0.0.1:9545');
+        const cont = new Contract(contractInterface.abi, "0xB6484f873373B881B363A8a8c723f40B13dE7aa2");
+        setContract(cont);
+
+        const accounts = await web3.eth.getAccounts();
+        //web3.eth.defaultAccount = accounts[0];
+        setCurrentUserAccount(accounts[1]);
+        cont.methods.balanceOf(currentUserAccount).call((error, result) => {
+            setBalance(result);
+            console.log(result, error);
+        })
+    }
+
+
+    React.useEffect( () =>  {
+        console.log("useEffect - Home");
+        loadAccounts();
+        //updateBalance();
+        
+    }, [])
 
     function renderHeader() {
         return (
@@ -71,7 +105,7 @@ const Transfer = ({navigation}) => {
                         color: COLORS.white,
                         ...FONTS.h1
                     }}
-                >{dummyData.portfolio.balance} ⓔ</Text>
+                >{balance} ⓔ</Text>
             </View>
         )
     }
@@ -94,12 +128,13 @@ const Transfer = ({navigation}) => {
                             borderBottomColor: COLORS.black,
                             borderBottomWidth: 1,
                             height: 40,
-                            color: COLORS.white,
+                            color: COLORS.black,
                             ...FONTS.body3
                         }}
                         placeholder="Enter Receiving Address"
                         placeholderTextColor={COLORS.black}
                         selectionColor={COLORS.black}
+                        onChangeText={(text) => setReceiverAddress(text)}
                     />
                 </View>
 
@@ -111,12 +146,13 @@ const Transfer = ({navigation}) => {
                             borderBottomColor: COLORS.black,
                             borderBottomWidth: 1,
                             height: 40,
-                            color: COLORS.white,
+                            color: COLORS.black,
                             ...FONTS.body3
                         }}
                         placeholder="Enter Amount"
                         placeholderTextColor={COLORS.black}
                         selectionColor={COLORS.black}
+                        onChangeText={(text) => setEnteredAmount(text)}
                     />
                 </View>
 
@@ -137,7 +173,17 @@ const Transfer = ({navigation}) => {
                         alignItems: "center",
                         justifyContent: "center"
                     }}
-                    onPress={() => navigation.navigate("Home")}
+                    onPress={() => {
+                        contract.methods.transfer(/*currentUserAccount, */receiverAddress, enteredAmount/*,currentUserAccount*/).send( {from: currentUserAccount}, (error, result) => {
+                            console.log(receiverAddress);
+                            console.log(enteredAmount);
+                            //setBalance(result);
+                            console.log(result, error);
+                            loadAccounts();
+                        })
+
+                        //navigation.navigate("Home")
+                    }}
                 >
                     <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Send</Text>
                 </TouchableOpacity>
